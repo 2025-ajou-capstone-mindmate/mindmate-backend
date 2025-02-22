@@ -1,4 +1,4 @@
-package com.mindmate.mindmate_server.user.dto;
+package com.mindmate.mindmate_server.user.domain;
 
 public enum Badge {
     NONE("일반 상담사"),

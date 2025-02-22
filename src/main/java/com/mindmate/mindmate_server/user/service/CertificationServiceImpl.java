@@ -53,15 +53,16 @@ public class CertificationServiceImpl implements CertificationService {
 
         if (request.getIsApproved()) { // 승인
             profile.approveCertification();
-            listenerRepository.save(profile);
 
-            // 승인 알림 전송
+            log.info("승인, 리스너 : {}", listenerId);
+            // todo : 승인 알림 전송
         } else { // 반려
             profile.rejectCertification();
-            listenerRepository.save(profile);
 
-            // 반려 알림 전송
+            log.info("반려, 리스너 : {}", listenerId);
+            // todo : 반려 알림 전송
         }
+        listenerRepository.save(profile);
     }
 
     private AdminCertificationResponse buildCertificationResponse(ListenerProfile profile) {

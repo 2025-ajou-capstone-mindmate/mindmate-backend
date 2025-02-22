@@ -1,14 +1,12 @@
 package com.mindmate.mindmate_server.user.domain;
 
 import com.mindmate.mindmate_server.global.entity.BaseTimeEntity;
-import com.mindmate.mindmate_server.user.dto.Badge;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +34,7 @@ public class ListenerProfile extends BaseTimeEntity {
     @OneToMany(mappedBy = "listenerProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ListenerCounselingField> counselingFields = new HashSet<>();
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CounselingStyle counselingStyle;
 
@@ -52,7 +50,7 @@ public class ListenerProfile extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Badge badgeStatus;
 
     private String certificationUrl;
@@ -100,6 +98,10 @@ public class ListenerProfile extends BaseTimeEntity {
     }
 
     public void updateAvailableTime(String availableTimeJson) {
+
+        if (this.availableTimes == null) {
+            this.availableTimes = "[]";
+        }
         this.availableTimes = availableTimeJson;
     }
 
@@ -138,14 +140,15 @@ public class ListenerProfile extends BaseTimeEntity {
         this.certificationUrl = null; // 자료 삭제
     }
 
-    public void promoteToFamous() {
-        if (this.counselingCount >= 50 && this.averageRates >= 4.5) {
-            this.badgeStatus = Badge.CERTIFIED;
-        }
-    }
+    /* 특정 조건 만족 시 배지 변경할 수 있도록 하는 로직 */
 
     public void rejectCertification() {
         this.certificationUrl = null;
+    }
+
+    public void updateCertificationDetails(String certificationUrl, String careerDescription) {
+        this.certificationUrl = certificationUrl;
+        this.careerDescription = careerDescription;
     }
 
 }

@@ -104,7 +104,7 @@ public class ProfileServiceImpl implements ProfileService {
                 .build();
 
         request.getCounselingFields().forEach(profile::addCounselingField);
-        profile.addAvailableTimes(request.getAvailableTimes()); // json형태로 받았을 때
+        profile.updateAvailableTime(request.getAvailableTimes()); // json형태로 받았을 때
 
         ListenerProfile savedProfile = listenerRepository.save(profile);
         user.updateRole(RoleType.ROLE_LISTENER);
@@ -159,7 +159,7 @@ public class ProfileServiceImpl implements ProfileService {
             profile.updateCounselingFields(request.getCounselingFields());
         }
         if (request.getAvailableTimes() != null) {
-            profile.addAvailableTimes(request.getAvailableTimes());
+            profile.updateAvailableTime(request.getAvailableTimes());
         }
 
         return getListenerProfile(profile.getId());
@@ -183,6 +183,14 @@ public class ProfileServiceImpl implements ProfileService {
         }
 
         return getSpeakerProfile(profile.getId());
+    }
+
+    @Override
+    public ListenerProfileResponse updateListenerCertification(Long profileId, CertificationUpdateRequest request) {
+        ListenerProfile profile = findListenerProfile(profileId);
+
+        profile.updateCertificationDetails(request.getCertificationUrl(), request.getCareerDescription());
+        return getListenerProfile(profile.getId());
     }
 
     @Override

@@ -12,11 +12,11 @@ public interface ProfileService {
     ProfileResponse createListenerProfile(ListenerProfileRequest request);
     ProfileResponse createSpeakerProfile(SpeakerProfileRequest request);
 
-    @Transactional
     ListenerProfileResponse updateListenerProfile(Long profileId, ListenerProfileUpdateRequest request);
 
-    @Transactional
     SpeakerProfileResponse updateSpeakerProfile(Long profileId, SpeakerProfileUpdateRequest request);
+
+    ListenerProfileResponse updateListenerCertification(Long profileId, CertificationUpdateRequest request);
 
     ProfileStatusResponse switchRole(RoleType targetRole);
 

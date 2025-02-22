@@ -59,6 +59,13 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.updateSpeakerProfile(currentUser.getSpeakerProfile().getId(), request));
     }
 
+    @PutMapping("/listener/certification")
+    public ResponseEntity<ListenerProfileResponse> updateListenerCertification(
+            @Valid @RequestBody CertificationUpdateRequest request) {
+        User currentUser = userService.getCurrentUser();
+        return ResponseEntity.ok(profileService.updateListenerCertification(currentUser.getListenerProfile().getId(), request));
+    }
+
     @PostMapping("/switch-role")
     public ResponseEntity<?> switchRole(@RequestParam RoleType targetRole) {
         ProfileStatusResponse response = profileService.switchRole(targetRole);

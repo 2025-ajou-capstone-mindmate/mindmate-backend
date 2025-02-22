@@ -7,10 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface CertificationService {
 
-    @Transactional(readOnly = true)
     AdminCertificationListResponse getCertificationList();
 
-    @Transactional(readOnly = true)
     AdminCertificationResponse getCertificationDetail(Long listenerId);
 
     void processCertification(Long listenerId, CertificationProcessRequest request);
