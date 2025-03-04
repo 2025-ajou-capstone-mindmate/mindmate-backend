@@ -1,12 +1,15 @@
 package com.mindmate.mindmate_server.user.domain;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.mindmate.mindmate_server.chat.domain.ChatMessage;
 import com.mindmate.mindmate_server.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,7 +17,7 @@ import java.util.UUID;
 @Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = {"listenerProfile", "speakerProfile"})
+@ToString(exclude = {"listenerProfile", "speakerProfile", "sentMessages"})
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +50,9 @@ public class User extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "user")
     private SpeakerProfile speakerProfile;
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<ChatMessage> sentMessages = new ArrayList<>();
 
     @Builder
     public User(String email, String password, RoleType role) {
